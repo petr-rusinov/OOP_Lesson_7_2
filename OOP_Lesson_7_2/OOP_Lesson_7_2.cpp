@@ -20,7 +20,6 @@ private:
 public:
 	Date() : Date(1, 1, 2021) { }
 	Date(uint8_t day, uint8_t month, uint16_t year) : m_day(day), m_month(month), m_year(year) { }
-	//Date(const Date& date) : m_day(date.getDay()), m_month(date.getMonth()), m_year(date.getYear()) { }
 
 	void setDay(uint8_t day) 
 	{
@@ -43,7 +42,7 @@ public:
 
 ostream& operator << (ostream& out, const Date& date)
 {
-	out << "Date: " << setfill('0') << setw(2) << static_cast<unsigned>(date.getDay()) << "." \
+	out << setfill('0') << setw(2) << static_cast<unsigned>(date.getDay()) << "." \
 		<< setfill('0') << setw(2) << static_cast<unsigned>(date.getMonth()) << "." \
 		<< static_cast<unsigned>(date.getYear());
 	return out;
@@ -101,18 +100,37 @@ void swapDates(unique_ptr<Date>& date1, unique_ptr<Date>& date2)
 
 int main()
 {
+	cout << "---------------- TASK 1 ----------------" << endl;
+	unique_ptr<Date> today = make_unique<Date>();
+	today->setDay(8);
+	today->setMonth(06);
+	today->setYear(2021);
+	cout << "today is " << *today << endl;
+	unique_ptr<Date> date = make_unique<Date>();
+	date = move(today);
+	if (today)
+		cout << "today is " << *today << endl;
+	else
+		cout << "today is nullptr" << endl;
+	if (date)
+		cout << "date is " << *date << endl;
+	else
+		cout << "date is nullptr" << endl;
+
+	cout << "---------------- TASK 2 ----------------" << endl;
 	unique_ptr<Date> date1 = make_unique<Date>();
 	date1->setDay(1);
 	date1->setMonth(5);
 	date1->setYear(2021);
-	cout << *date1 << endl;
+	cout <<"Date 1 is " << *date1 << endl;
 	unique_ptr<Date> date2 = make_unique<Date>();
 	date2->setDay(2);
 	date2->setMonth(4);
 	date2->setYear(2020);
-	cout << *date2 << endl;
+	cout << "Date 2 is " << *date2 << endl;
 
-	cout << *compareDates(date1, date2) << endl;
+	cout << "The most recent date is  " << *compareDates(date1, date2) << endl;
+	cout << endl;
 
 	cout << "----- Before Swap ------" << endl;
 	cout << "Date 1: " << *date1 << ", Date 2: " << *date2 << endl;
